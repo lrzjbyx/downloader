@@ -71,19 +71,15 @@
            <height>80</height>
           </size>
          </property>
-         <widget class="QLabel" name="label">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>58</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>图片</string>
-          </property>
-         </widget>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLabel" name="loginPic">
+            <property name="text">
+             <string>图片</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -197,7 +193,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QToolButton" name="toolButton_3">
+           <widget class="QToolButton" name="downloadButton">
             <property name="text">
              <string>下载</string>
             </property>
@@ -237,7 +233,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QToolButton" name="toolButton_4">
+           <widget class="QToolButton" name="playButton">
             <property name="text">
              <string>播放</string>
             </property>
@@ -277,7 +273,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QToolButton" name="toolButton_5">
+           <widget class="QToolButton" name="pdfButton">
             <property name="text">
              <string>pdf</string>
             </property>
@@ -317,7 +313,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QToolButton" name="toolButton_6">
+           <widget class="QToolButton" name="setButton">
             <property name="text">
              <string>设置</string>
             </property>
@@ -343,12 +339,19 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="widget_2" native="true"/>
-    </item>
-    <item>
      <widget class="Line" name="line">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="frame" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
      </widget>
     </item>
