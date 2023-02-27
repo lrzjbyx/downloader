@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize, Qt, pyqtSignal
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QToolButton, QLabel, QHBoxLayout, QVBoxLayout
 from PyQt5.uic import loadUi
@@ -9,10 +9,11 @@ from view.pdf import PdfWindow
 from view.play import PlayWindow
 from view.search import SearchWindow
 from view.set import SetWindow
-
+# from api.bilibili_downloader import BilibiliVideoDownloader
+from api.bilibili import Bilibili
 
 class HomeWindow(QMainWindow):
-
+    searchSignal = pyqtSignal(dict)
     def __init__(self):
         super().__init__()
         loadUi("./view/ui/home.ui", self)
@@ -66,18 +67,24 @@ class HomeWindow(QMainWindow):
 
 
         # 搜索窗口
-        self.searchWindow = SearchWindow()
+        self.searchWindow = SearchWindow(self)
         # 详情窗口
-        self.detailWindow = DetailWindow()
+        self.detailWindow = DetailWindow(self)
         # 下载窗口
-        self.downloadWindow = DownloadWindow()
+        self.downloadWindow = DownloadWindow(self)
         # pdf窗口
-        self.pdfWindow = PdfWindow()
+        self.pdfWindow = PdfWindow(self)
         # play窗口
-        self.playWindow = PlayWindow()
-        # 详情窗口
-        self.setWindow = SetWindow()
+        self.playWindow = PlayWindow(self)
+        # 设置窗口
+        self.setWindow = SetWindow(self)
+        # 窗口开关
+        self.switchWindow = [True,False,False,False,False,True]
 
+
+
+        # 下载器
+        self.downloader = Bilibili()
 
         # frame布局
         self.frameLayout = QVBoxLayout()
@@ -85,33 +92,51 @@ class HomeWindow(QMainWindow):
         self.frameLayout.addWidget(self.searchWindow)
         self.frame.setLayout(self.frameLayout)
 
+        # 搜索信号
+        self.searchSignal.connect(self.searchProcessHandle)
+        # 搜索结果
+        self.searchResult = None
+
+
+    def searchProcessHandle(self,data):
+        self.searchResult  =  data
+        self.detailWindow.addSignal.emit(data)
+
 
     def removeAllWidgetInLayout(self):
         self.frameLayout.takeAt(0).widget().setParent(None)
-        print(self.frameLayout.count())
-        # self.update()
 
 
     def switchSearchWindow(self):
-        self.removeAllWidgetInLayout()
-        self.frameLayout.addWidget(self.searchWindow)
+        if self.switchWindow[0]:
+            self.removeAllWidgetInLayout()
+            self.frameLayout.addWidget(self.searchWindow)
 
     def switchDetailWindow(self):
-        self.removeAllWidgetInLayout()
-        self.frameLayout.addWidget(self.detailWindow)
+        if  self.switchWindow[1]:
+            self.removeAllWidgetInLayout()
+            self.frameLayout.addWidget(self.detailWindow)
+
 
     def switchDownloadWindow(self):
-        self.removeAllWidgetInLayout()
-        self.frameLayout.addWidget(self.downloadWindow)
+        if  self.switchWindow[2]:
+            self.removeAllWidgetInLayout()
+            self.frameLayout.addWidget(self.downloadWindow)
 
     def switchPlayWindow(self):
-        self.removeAllWidgetInLayout()
-        self.frameLayout.addWidget(self.playWindow)
+        if  self.switchWindow[3]:
+            self.removeAllWidgetInLayout()
+            self.frameLayout.addWidget(self.playWindow)
+
 
     def switchPdfWindow(self):
-        self.removeAllWidgetInLayout()
-        self.frameLayout.addWidget(self.pdfWindow)
+        if  self.switchWindow[4]:
+            self.removeAllWidgetInLayout()
+            self.frameLayout.addWidget(self.pdfWindow)
+
 
     def switchSetWindow(self):
-        self.removeAllWidgetInLayout()
-        self.frameLayout.addWidget(self.setWindow)
+        if  self.switchWindow[5]:
+            self.removeAllWidgetInLayout()
+            self.frameLayout.addWidget(self.setWindow)
+

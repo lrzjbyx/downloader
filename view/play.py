@@ -6,6 +6,7 @@ from PyQt5.uic import loadUi
 
 class PlayWindow(QWidget):
 
-    def __init__(self):
+    def __init__(self,home):
         super().__init__()
+        self.home = home
         loadUi("./view/ui/play.ui", self)

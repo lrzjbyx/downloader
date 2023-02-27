@@ -6,6 +6,7 @@ from PyQt5.uic import loadUi
 
 class SetWindow(QWidget):
 
-    def __init__(self):
+    def __init__(self,home):
         super().__init__()
+        self.home = home
         loadUi("./view/ui/set.ui", self)
